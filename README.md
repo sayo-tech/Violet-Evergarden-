@@ -1,6 +1,6 @@
 <div align="center">
 
-<frame src="https://giphy.com/embed/a3FVJG2t1y9uHZ99FG" width="480" height="480" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/peak-tuff-violet-evergarden-a3FVJG2t1y9uHZ99FG">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenRiZnU1bDY3a3AzZm5tenE2eW9ybjJ3cDkzams5MnE1d3IwMjhqcCZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/a3FVJG2t1y9uHZ99FG/giphy.gif">
 💐 Synopsis
 
 Following four long years of conflict, The Great War in the land of Telesis finally came to an end. Caught up in the bloodshed was Violet Evergarden, a young girl raised as a ruthless killer. Hospitalized and maimed in a bloody skirmish during the War's conclusion, she was left with only the words "I love you" from the person she held dearest, but with no understanding of their meaning.
