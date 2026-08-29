@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVERGARDEN — A Violet Evergarden Magazine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --paper: #f4ece1;
+  --paper-dark: #e8ddd0;
+  --ink: #2c2416;
+  --ink-light: #5a4a3a;
+  --ink-faded: #8a7a6a;
+  --accent: #8b4513;
+  --accent-light: #a0623a;
+  --rule: #b8a898;
+  --highlight: #c9a96e;
+  --serif: 'Playfair Display', 'Georgia', serif;
+  --body: 'IBM Plex Mono', 'Courier New', monospace;
+  --elegant: 'Cormorant Garamond', 'Georgia', serif;
+  --column-gap: 2rem;
+  --page-pad: clamp(1.5rem, 4vw, 4rem);
+  --transition-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+  --transition-paper: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--body);
+  color: var(--ink);
+  background-color: var(--paper);
+  line-height: 1.7;
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Paper texture background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.02 0.04' numOctaves='5' seed='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 1;
+}
+
+/* Sepia filter overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  background: rgba(112, 66, 20, 0.08);
+  mix-blend-mode: multiply;
+}
+
+/* Page sections */
+.page-section {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+}
+
+.page-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+h1, h2, h3, h4 {
+  font-family: var(--serif);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+h1 {
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-family: var(--body);
+}
+
+p {
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.8;
+}
+
+.dropcap::first-letter {
+  font-family: var(--serif);
+  font-size: 4.5em;
+  float: left;
+  line-height: 0.8;
+  margin-right: 0.08em;
+  margin-top: 0.05em;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* Horizontal rules */
+.rule {
+  border: none;
+  height: 1px;
+  background: var(--rule);
+  margin: 2rem 0;
+}
+
+.rule--thick {
+  height: 3px;
+  background: var(--ink);
+}
+
+.rule--double {
+  height: 1px;
+  background: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 3px;
+}
+
+/* ============================================
+   MASTHEAD / HEADER
+   ============================================ */
+.masthead {
+  position: relative;
+  z-index: 100;
+  padding: 1rem var(--page-pad);
+  border-bottom: 3px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--paper);
+}
+
+.masthead__brand {
+  font-family: var(--serif);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-weight: 700;
+}
+
+.masthead__issue {
+  font-family: var(--body);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-faded);
+  text-transform: uppercase;
+}
+
+.masthead__nav-toggle {
+  display: none;
+  background: none;
+  border: 2px solid var(--ink);
+  padding: 0.3rem 0.6rem;
+  font-family: var(--body);
+  font-size: 0.7rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ============================================
+   MAGAZINE TOC NAVIGATION
+   ============================================ */
+.toc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s var(--transition-paper);
+}
+
+.toc-overlay.open {
+  pointer-events: all;
+  opacity: 1;
+}
+
+.toc-overlay__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(44, 36, 22, 0.4);
+}
+
+.toc {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: min(480px, 85vw);
+  background: var(--paper);
+  border-left: 3px solid var(--ink);
+  padding: 3rem 2.5rem;
+  transform: translateX(100%);
+  transition: transform 0.6s var(--transition-paper);
+  overflow-y: auto;
+}
+
+.toc-overlay.open .toc {
+  transform: translateX(0);
+}
+
+.toc__close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.toc__title {
+  font-family: var(--serif);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.toc__list {
+  list-style: none;
+}
+
+.toc__item {
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.4s ease, transform 0.4s var(--transition-smooth);
+}
+
+.toc-overlay.open .toc__item {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toc-overlay.open .toc__item:nth-child(1) { transition-delay: 0.15s; }
+.toc-overlay.open .toc__item:nth-child(2) { transition-delay: 0.2s; }
+.toc-overlay.open .toc__item:nth-child(3) { transition-delay: 0.25s; }
+.toc-overlay.open .toc__item:nth-child(4) { transition-delay: 0.3s; }
+.toc-overlay.open .toc__item:nth-child(5) { transition-delay: 0.35s; }
+.toc-overlay.open .toc__item:nth-child(6) { transition-delay: 0.4s; }
+.toc-overlay.open .toc__item:nth-child(7) { transition-delay: 0.45s; }
+
+.toc__link {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  text-decoration: none;
+  color: var(--ink);
+  transition: padding-left 0.4s var(--transition-smooth);
+}
+
+.toc__link:hover {
+  padding-left: 0.5rem;
+}
+
+.toc__number {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--accent);
+  min-width: 2.5rem;
+  transition: all 0.5s var(--transition-smooth);
+  transform-origin: left center;
+  line-height: 1;
+}
+
+.toc__link:hover .toc__number {
+  font-size: 3.2rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.toc__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.toc__section-title {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.toc__section-desc {
+  font-family: var(--body);
+  font-size: 0.65rem;
+  color: var(--ink-faded);
+  letter-spacing: 0.05em;
+}
+
+/* ============================================
+   HERO / COVER
+   ============================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  padding: var(--page-pad);
+  overflow: hidden;
+}
+
+.hero__top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.hero__tag {
+  font-family: var(--body);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--ink-faded);
+  writing-mode: vertical-rl;
+  position: absolute;
+  left: var(--page-pad);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hero__content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero__subtitle-top {
+  font-family: var(--body);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: var(--ink-faded);
+  margin-bottom: 1.5rem;
+}
+
+.hero__title {
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.hero__title em {
+  font-style: italic;
+  font-weight: 400;
+  display: block;
+  font-size: 0.4em;
+  letter-spacing: 0.1em;
+  margin-top: 0.3em;
+  color: var(--accent);
+}
+
+.hero__divider {
+  width: 60px;
+  height: 3px;
+  background: var(--ink);
+  margin: 2rem auto;
+}
+
+.hero__tagline {
+  font-family: var(--elegant);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-style: italic;
+  color: var(--ink-light);
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  line-height: 1.5;
+}
+
+.hero__meta {
+  font-family: var(--body);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--ink-faded);
+}
+
+.hero__scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--body);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--ink-faded);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: scrollHint 2s ease-in-out infinite;
+}
+
+.hero__scroll-hint::after {
+  content: '';
+  width: 1px;
+  height: 30px;
+  background: var(--ink-faded);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes scrollHint {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ============================================
+   MAGAZINE COLUMNS LAYOUT
+   ============================================ */
+.magazine-grid {
+  display: grid;
+  gap: var(--column-gap);
+  padding: 0 var(--page-pad);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.magazine-grid--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.magazine-grid--3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.magazine-grid--asymmetric {
+  grid-template-columns: 2fr 1fr;
+}
+
+.magazine-grid--asymmetric-reverse {
+  grid-template-columns: 1fr 2fr;
+}
+
+.magazine-grid--wide-left {
+  grid-template-columns: 3fr 2fr;
+}
+
+.magazine-grid--wide-right {
+  grid-template-columns: 2fr 3fr;
+}
+
+.magazine-grid--sidebar {
+  grid-template-columns: 1fr 300px;
+}
+
+@media (max-width: 900px) {
+  .magazine-grid--2,
+  .magazine-grid--3,
+  .magazine-grid--asymmetric,
+  .magazine-grid--asymmetric-reverse,
+  .magazine-grid--wide-left,
+  .magazine-grid--wide-right,
+  .magazine-grid--sidebar {
+    grid-template-columns: 1fr;
+  }
+}
+
+.col {
+  position: relative;
+}
+
+.col--bordered {
+  border-right: 1px solid var(--rule);
+  padding-right: var(--column-gap);
+}
+
+@media (max-width: 900px) {
+  .col--bordered {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: var(--column-gap);
+  }
+}
+
+/* Multi-column text within a column */
+.multi-col-text {
+  column-count: 2;
+  column-gap: 1.5rem;
+  column-rule: 1px solid var(--rule);
+}
+
+@media (max-width: 700px) {
+  .multi-col-text {
+    column-count: 1;
+  }
+}
+
+/* ============================================
+   SECTION STYLING
+   ============================================ */
+.section {
+  padding: clamp(3rem, 8vw, 6rem) 0;
+  position: relative;
+}
+
+.section__label {
+  font-family: var(--body);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: var(--ink-faded);
+  margin-bottom: 0.5rem;
+}
+
+.section__number {
+  font-family: var(--serif);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+.section__header {
+  margin-bottom: 3rem;
+}
+
+.section__header h2 {
+  position: relative;
+  display: inline-block;
+}
+
+.section__header h2::after {
+  content: '';
+  position: absolute;
+  bottom: -0.3em;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* Pull quote */
+.pull-quote {
+  font-family: var(--elegant);
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-style: italic;
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  line-height: 1.5;
+}
+
+.pull-quote cite {
+  display: block;
+  font-family: var(--body);
+  font-size: 0.65rem;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ink-faded);
+  margin-top: 0.75rem;
+}
+
+/* Image frames — magazine style */
+.img-frame {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: var(--paper-dark);
+}
+
+.img-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.img-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(135deg, rgba(112,66,20,0.1), rgba(180,150,100,0.05));
+  mix-blend-mode: sepia;
+  pointer-events: none;
+}
+
+.img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: sepia(0.2) contrast(1.05) brightness(0.97);
+  transition: transform 0.8s var(--transition-smooth);
+}
+
+.img-frame:hover img {
+  transform: scale(1.03);
+}
+
+.img-frame--tall {
+  aspect-ratio: 3/4;
+}
+
+.img-frame--wide {
+  aspect-ratio: 16/9;
+}
+
+.img-frame--square {
+  aspect-ratio: 1;
+}
+
+.img-caption {
+  font-family: var(--body);
+  font-size: 0.65rem;
+  color: var(--ink-faded);
+  margin-top: 0.5rem;
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+}
+
+.img-caption strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Feature cards */
+.feature-card {
+  padding: 2rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.feature-card__number {
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--paper-dark);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  transition: color 0.4s ease;
+}
+
+.feature-card:hover .feature-card__number {
+  color: var(--accent);
+}
+
+.feature-card__title {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.feature-card__text {
+  font-size: 0.8rem;
+  color: var(--ink-light);
+}
+
+/* Episode list */
+.episode-list {
+  list-style: none;
+}
+
+.episode-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  gap: 1rem;
+  align-items: baseline;
+  transition: padding-left 0.3s ease;
+}
+
+.episode-list li:hover {
+  padding-left: 0.5rem;
+}
+
+.episode-list__num {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+.episode-list__title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.episode-list__jp {
+  font-family: var(--body);
+  font-size: 0.7rem;
+  color: var(--ink-faded);
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.episode-list__rating {
+  font-family: var(--body);
+  font-size: 0.7rem;
+  color: var(--ink-faded);
+}
+
+/* Stat boxes */
+.stat-row {
+  display: flex;
+  gap: 1px;
+  background: var(--rule);
+  margin: 2rem 0;
+}
+
+.stat-box {
+  flex: 1;
+  background: var(--paper);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.stat-box__value {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.stat-box__label {
+  font-family: var(--body);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ink-faded);
+  margin-top: 0.5rem;
+}
+
+/* Staff table */
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.staff-table td {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.staff-table td:first-child {
+  font-family: var(--body);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-faded);
+  width: 140px;
+  padding-right: 1rem;
+}
+
+.staff-table td:last-child {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* ============================================
+   PAGE TRANSITION (FLIP EFFECT)
+   ============================================ */
+.page-flip {
+  position: relative;
+  perspective: 2000px;
+}
+
+.page-flip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(0,0,0,0.06), transparent);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.page-flip::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.03));
+  pointer-events: none;
+}
+
+/* ============================================
+   FOOTER — COPYRIGHT PAGE
+   ============================================ */
+.colophon {
+  border-top: 3px solid var(--ink);
+  padding: 3rem var(--page-pad) 2rem;
+  margin-top: 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.colophon__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .colophon__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.colophon__title {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.colophon__text {
+  font-size: 0.72rem;
+  color: var(--ink-light);
+  line-height: 1.8;
+}
+
+.colophon__heading {
+  font-family: var(--body);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--ink-faded);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.colophon__list {
+  list-style: none;
+  font-size: 0.72rem;
+  color: var(--ink-light);
+}
+
+.colophon__list li {
+  padding: 0.3rem 0;
+  line-height: 1.6;
+}
+
+.colophon__bottom {
+  max-width: 1400px;
+  margin: 3rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.colophon__issn {
+  font-family: var(--body);
+  font-size: 0.65rem;
+  color: var(--ink-faded);
+  letter-spacing: 0.1em;
+}
+
+.colophon__issn span {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-weight: 600;
+  margin-top: 0.2rem;
+  letter-spacing: 0.2em;
+}
+
+.colophon__legal {
+  font-family: var(--body);
+  font-size: 0.6rem;
+  color: var(--ink-faded);
+  text-align: right;
+  max-width: 400px;
+  line-height: 1.7;
+}
+
+.colophon__mark {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.colophon__mark-symbol {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--rule);
+}
+
+/* ============================================
+   PAGE FLIP TRANSITIONS BETWEEN SECTIONS
+   ============================================ */
+.page-break {
+  position: relative;
+  height: 80px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.page-break__fold {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.04) 0%,
+    transparent 20%,
+    transparent 80%,
+    rgba(0,0,0,0.02) 100%
+  );
+}
+
+.page-break__line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* Folio — page numbers */
+.folio {
+  font-family: var(--body);
+  font-size: 0.6rem;
+  color: var(--ink-faded);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.folio--left { text-align: left; }
+.folio--right { text-align: right; }
+.folio--center { text-align: center; }
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.stagger-in > * {
+  opacity: 0;
+  animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+}
+
+.stagger-in > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-in > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-in > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-in > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-in > *:nth-child(5) { animation-delay: 0.5s; }
+
+/* Image placeholder — beautiful gradient fills */
+.img-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-placeholder--violet {
+  background: linear-gradient(145deg, #4a3060, #7b5ea0, #a98cc0, #d4c5e0);
+}
+
+.img-placeholder--landscape {
+  background: linear-gradient(160deg, #5a7a5a, #8aaa7a, #b8c8a0, #d8d0b0);
+}
+
+.img-placeholder--letter {
+  background: linear-gradient(135deg, #e8ddd0, #d4c5b0, #c8b89a, #b8a888);
+}
+
+.img-placeholder--portrait {
+  background: linear-gradient(170deg, #6a4a3a, #9a7a60, #c0a880, #d8c8a8);
+}
+
+.img-placeholder--war {
+  background: linear-gradient(155deg, #3a3a4a, #5a5a70, #8a8898, #a8a0b0);
+}
+
+.img-placeholder--emerald {
+  background: linear-gradient(140deg, #1a4040, #2a6060, #4a9080, #80b8a0);
+}
+
+.img-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+.img-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(112, 66, 20, 0.08);
+  mix-blend-mode: multiply;
+}
+
+/* Decorative elements */
+.ornament {
+  font-family: var(--serif);
+  color: var(--rule);
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 2rem 0;
+  letter-spacing: 0.5em;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .masthead__nav-toggle {
+    display: block;
+  }
+
+  .hero__tag {
+    display: none;
+  }
+
+  .stat-row {
+    flex-direction: column;
+  }
+
+  .colophon__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .colophon__legal {
+    text-align: left;
+  }
+
+  .episode-list li {
+    grid-template-columns: 2.5rem 1fr;
+  }
+
+  .episode-list__rating {
+    grid-column: 2;
+  }
+}
+
+/* Noise overlay for the whole page */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Vignette */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9996;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(44,36,22,0.12) 100%);
+}
+
+/* Selection */
+::selection {
+  background: var(--highlight);
+  color: var(--paper);
+}
+</style>
+</head>
+<body>
+
+<!-- Noise overlay -->
+<div class="noise-overlay"></div>
+<div class="vignette"></div>
+
+<!-- ============================================
+     MASTHEAD
+     ============================================ -->
+<header class="masthead">
+  <div class="masthead__brand">Evergarden Magazine</div>
+  <div class="masthead__issue">Vol. I &middot; No. 1 &middot; August 2026</div>
+  <button class="masthead__nav-toggle" id="tocToggle" aria-label="Open table of contents">Contents</button>
+</header>
+
+<!-- ============================================
+     TOC OVERLAY
+     ============================================ -->
+<div class="toc-overlay" id="tocOverlay">
+  <div class="toc-overlay__backdrop" id="tocBackdrop"></div>
+  <nav class="toc">
+    <button class="toc__close" id="tocClose" aria-label="Close">&times;</button>
+    <div class="toc__title">Table of Contents</div>
+    <ul class="toc__list">
+      <li class="toc__item">
+        <a href="#cover" class="toc__link" data-section="cover">
+          <span class="toc__number">01</span>
+          <span class="toc__text">
+            <span class="toc__section-title">The Cover</span>
+            <span class="toc__section-desc">A world of Auto Memory Dolls</span>
+          </span>
+        </a>
+      </li>
+      <li class="toc__item">
+        <a href="#synopsis" class="toc__link" data-section="synopsis">
+          <span class="toc__number">02</span>
+          <span class="toc__text">
+            <span class="toc__section-title">Synopsis</span>
+            <span class="toc__section-desc">The story of a soldier learning to feel</span>
+          </span>
+        </a>
+      </li>
+      <li class="toc__item">
+        <a href="#characters" class="toc__link" data-section="characters">
+          <span class="toc__number">03</span>
+          <span class="toc__text">
+            <span class="toc__section-title">Characters</span>
+            <span class="toc__section-desc">Portraits of the heart</span>
+          </span>
+        </a>
+      </li>
+      <li class="toc__item">
+        <a href="#episodes" class="toc__link" data-section="episodes">
+          <span class="toc__number">04</span>
+          <span class="toc__text">
+            <span class="toc__section-title">Episode Guide</span>
+            <span class="toc__section-desc">Thirteen letters to the world</span>
+          </span>
+        </a>
+      </li>
+      <li class="toc__item">
+        <a href="#production" class="toc__link" data-section="production">
+          <span class="toc__number">05</span>
+          <span class="toc__text">
+            <span class="toc__section-title">Production</span>
+            <span class="toc__section-desc">Kyoto Animation's masterpiece</span>
+          </span>
+        </a>
+      </li>
+      <li class="toc__item">
+        <a href="#themes" class="toc__link" data-section="themes">
+          <span class="toc__number">06</span>
+          <span class="toc__text">
+            <span class="toc__section-title">Themes & Analysis</span>
+            <span class="toc__section-desc">What it means to love</span>
+          </span>
+        </a>
+      </li>
+      <li class="toc__item">
+        <a href="#legacy" class="toc__link" data-section="legacy">
+          <span class="toc__number">07</span>
+          <span class="toc__text">
+            <span class="toc__section-title">Legacy</span>
+            <span class="toc__section-desc">An everlasting impression</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<!-- ============================================
+     01 — COVER / HERO
+     ============================================ -->
+<section class="hero page-section" id="cover">
+  <span class="hero__tag">Special Edition &mdash; Collector's Issue</span>
+
+  <div class="hero__content">
+    <p class="hero__subtitle-top">A Special Retrospective Magazine</p>
+    <h1 class="hero__title">
+      Violet<br><em>Evergarden</em>
+    </h1>
+    <div class="hero__divider"></div>
+    <p class="hero__tagline">
+      "I want to know what 'I love you' means."
+    </p>
+    <p class="hero__meta">
+      Kyoto Animation &middot; 2018 &middot; 13 Episodes + Feature Film
+    </p>
+  </div>
+
+  <div class="hero__scroll-hint">Scroll to begin</div>
+</section>
+
+<div class="page-break"><div class="page-break__fold"></div><div class="page-break__line"></div></div>
+
+<!-- ============================================
+     02 — SYNOPSIS
+     ============================================ -->
+<section class="section page-section page-flip" id="synopsis">
+  <div class="magazine-grid magazine-grid--asymmetric">
+    <div class="col col--bordered">
+      <div class="section__header">
+        <span class="section__label"><span class="section__number">02</span> &mdash; Synopsis</span>
+        <h2>The Story of a<br>Soldier Learning<br>to Feel</h2>
+      </div>
+
+      <div class="multi-col-text">
+        <p class="dropcap">Violet Evergarden is the story of a young woman who knows only war. Raised as a weapon, a child soldier with no understanding of human emotion, Violet finds herself discharged from the army after a devastating final battle that costs her both her hands and the only person who ever showed her something resembling affection — Major Gilbert Bougainvillea.</p>
+
+        <p>His last words to her — "I love you" — are a mystery she cannot decipher. What does it mean? How can words she has never heard before carry such weight? To find the answer, Violet takes a job as an Auto Memory Doll at the CH Postal Company, a profession dedicated to ghostwriting letters for those who cannot express themselves.</p>
+
+        <p>Through each commission, each letter she crafts for others, Violet begins to understand the vast spectrum of human emotion — love, grief, regret, hope, longing, forgiveness. Each client teaches her something new about the heart, and with every word she writes, she moves one step closer to understanding the Major's final confession.</p>
+
+        <p>The series is set in a fictionalized European-inspired world recovering from a devastating continental war. The technology blends early 20th century aesthetics with subtle fantastical elements — Auto Memory Dolls themselves being a profession born from a inventor's love for his blind wife.</p>
+
+        <p>At its core, Violet Evergarden is not a war story. It is the story of what comes after — of a girl who was never taught to be human slowly, painfully, beautifully learning what it means to live, to feel, and ultimately, to love.</p>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="img-frame img-frame--tall">
+        <div class="img-placeholder img-placeholder--violet"></div>
+      </div>
+      <p class="img-caption"><strong>Violet Evergarden</strong> — Former soldier, now an Auto Memory Doll at CH Postal Company. Her journey from weapon to writer forms the emotional backbone of the series.</p>
+
+      <div class="pull-quote" style="margin-top: 2rem;">
+        "I'm not sure if what I feel is truly love, but I want to understand the words the Major left me with."
+        <cite>— Violet Evergarden</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-break"><div class="page-break__fold"></div><div class="page-break__line"></div></div>
+
+<!-- ============================================
+     03 — CHARACTERS
+     ============================================ -->
+<section class="section page-section page-flip" id="characters">
+  <div class="magazine-grid" style="max-width: 1400px; margin: 0 auto; padding: 0 var(--page-pad);">
+    <div class="section__header" style="grid-column: 1 / -1;">
+      <span class="section__label"><span class="section__number">03</span> &mdash; Characters</span>
+      <h2>Portraits of the Heart</h2>
+    </div>
+  </div>
+
+  <div class="magazine-grid magazine-grid--wide-right" style="padding: 0 var(--page-pad);">
+    <!-- Left: Large portrait -->
+    <div class="col">
+      <div class="img-frame img-frame--tall">
+        <div class="img-placeholder img-placeholder--portrait"></div>
+      </div>
+      <p class="img-caption"><strong>Violet Evergarden</strong> — Voiced by Yui Ishikawa. A former child soldier with prosthetic hands who becomes an Auto Memory Doll to understand the meaning of "I love you."</p>
+    </div>
+
+    <!-- Right: Character cards -->
+    <div class="col stagger-in">
+      <div class="feature-card">
+        <div class="feature-card__number">01</div>
+        <h3 class="feature-card__title">Major Gilbert Bougainvillea</h3>
+        <p class="feature-card__text">The man who gave Violet her name and the only person who saw her as human rather than a weapon. His final words — "I love you" — set Violet on her journey. Voiced by Daisuke Namikawa.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card__number">02</div>
+        <h3 class="feature-card__title">Claudia Hodgins</h3>
+        <p class="feature-card__text">A former army major and now president of CH Postal Company. He acts as Violet's guardian and employer, helping her adjust to civilian life with patience and warmth. Voiced by Takehito Koyasu.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card__number">03</div>
+        <h3 class="feature-card__title">Cattleya Baudelaire</h3>
+        <p class="feature-card__text">The star Auto Memory Doll of CH Postal, known for her beauty and skill with romantic letters. She initially resents Violet but grows to care deeply for her. Voiced by Aya Endō.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card__number">04</div>
+        <h3 class="feature-card__title">Benedict Blue</h3>
+        <p class="feature-card__text">A postal deliveryman with a sharp tongue and a gentle heart. He clashes with Violet at first but becomes one of her most loyal friends. Voiced by Kōki Uchiyama.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card__number">05</div>
+        <h3 class="feature-card__title">Erica Brown & Iris Cannary</h3>
+        <p class="feature-card__text">Fellow Auto Memory Dolls who serve as Violet's colleagues and friends. Erica is shy and insecure while Iris is bold and determined. Together they help Violet navigate office life.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-break"><div class="page-break__fold"></div><div class="page-break__line"></div></div>
+
+<!-- ============================================
+     04 — EPISODE GUIDE
+     ============================================ -->
+<section class="section page-section page-flip" id="episodes">
+  <div class="magazine-grid magazine-grid--sidebar">
+    <div class="col">
+      <div class="section__header">
+        <span class="section__label"><span class="section__number">04</span> &mdash; Episode Guide</span>
+        <h2>Thirteen Letters<br>to the World</h2>
+      </div>
+
+      <ol class="episode-list">
+        <li>
+          <span class="episode-list__num">01</span>
+          <span class="episode-list__title">
+            "I Love You" and Auto Memory Dolls
+            <span class="episode-list__jp">「「愛してる」と自動手記人形」</span>
+          </span>
+          <span class="episode-list__rating">★ 8.4</span>
+        </li>
+        <li>
+          <span class="episode-list__num">02</span>
+          <span class="episode-list__title">
+            "Re" is not a word for a client
+            <span class="episode-list__jp">「"Re"はお客様の言葉ではありません」</span>
+          </span>
+          <span class="episode-list__rating">★ 8.1</span>
+        </li>
+        <li>
+          <span class="episode-list__num">03</span>
+          <span class="episode-list__title">
+            You may be an existence that supports all who bear the name "soldier"
+            <span class="episode-list__jp">「あなたは、戦士という名の全ての人々を支える存在かもしれません」</span>
+          </span>
+          <span class="episode-list__rating">★ 8.6</span>
+        </li>
+        <li>
+          <span class="episode-list__num">04</span>
+          <span class="episode-list__title">
+            "You won't be a tool, but a person worthy of that name"
+            <span class="episode-list__jp">「君は道具ではなく、その名にふさわしい人間になる」</span>
+          </span>
+          <span class="episode-list__rating">★ 8.9</span>
+        </li>
+        <li>
+          <span class="episode-list__num">05</span>
+          <span class="episode-list__title">
+            "Shall We Write a Letter?"
+            <span class="episode-list__jp">「手紙を書きましょうか？」</span>
+          </span>
+          <span class="episode-list__rating">★ 7.8</span>
+        </li>
+        <li>
+          <span class="episode-list__num">06</span>
+          <span class="episode-list__title">
+            "In the End, I Believe That There Is Nothing That Cannot Be Conveyed"
+            <span class="episode-list__jp">「きっと、届かないものはないと信じている」</span>
+          </span>
+          <span class="episode-list__rating">★ 9.2</span>
+        </li>
+        <li>
+          <span class="episode-list__num">07</span>
+          <span class="episode-list__title">
+            "Will You Even Call It Love?"
+            <span class="episode-list__jp">「それは、あなたも"愛"と呼びますか？」</span>
+          </span>
+          <span class="episode-list__rating">★ 8.3</span>
+        </li>
+        <li>
+          <span class="episode-list__num">08</span>
+          <span class="episode-list__title">
+            "We Won't Let the End of This Love Be a Repeat of What Happened"
+            <span class="episode-list__jp">「この愛の結末を、もう一度繰り返させない」</span>
+          </span>
+          <span class="episode-list__rating">★ 8.0</span>
+        </li>
+        <li>
+          <span class="episode-list__num">09</span>
+          <span class="episode-list__title">
+            "Violet Evergarden, with Love"
+            <span class="episode-list__jp">「ヴァイオレット・エヴァーガーデン、愛を知る」</span>
+          </span>
+          <span class="episode-list__rating">★ 9.5</span>
+        </li>
+        <li>
+          <span class="episode-list__num">10</span>
+          <span class="episode-list__title">
+            "A Loved One Will Always Watch Over You"
+            <span class="episode-list__jp">「愛する人は、いつだって見守ってくれる」</span>
+          </span>
+          <span class="episode-list__rating">★ 9.7</span>
+        </li>
+        <li>
+          <span class="episode-list__num">11</span>
+          <span class="episode-list__title">
+            "I Won't Forget You, Ever"
+            <span class="episode-list__jp">「わたしは、けっして忘れません」</span>
+          </span>
+          <span class="episode-list__rating">★ 8.8</span>
+        </li>
+        <li>
+          <span class="episode-list__num">12</span>
+          <span class="episode-list__title">
+            "The Major's Orders Were..."
+            <span class="episode-list__jp">「少佐の命令は...」</span>
+          </span>
+          <span class="episode-list__rating">★ 9.0</span>
+        </li>
+        <li>
+          <span class="episode-list__num">13</span>
+          <span class="episode-list__title">
+            "I Love You" and Auto Memory Dolls (Reprise)
+            <span class="episode-list__jp">「「愛してる」と自動手記人形」</span>
+          </span>
+          <span class="episode-list__rating">★ 9.3</span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="col">
+      <div class="img-frame img-frame--wide" style="margin-bottom: 2rem;">
+        <div class="img-placeholder img-placeholder--landscape"></div>
+      </div>
+      <p class="img-caption"><strong>The CH Postal Company</strong> — Where Violet learns her craft and discovers the power of words to bridge human hearts.</p>
+
+      <div class="pull-quote" style="margin-top: 2rem;">
+        "Episode 10 — 'A Loved One Will Always Watch Over You' — is widely regarded as one of the most emotionally devastating episodes in anime history."
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-box__value">13</div>
+          <div class="stat-box__label">Episodes</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box__value">24</div>
+          <div class="stat-box__label">Minutes Each</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box__value">2018</div>
+          <div class="stat-box__label">Aired</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-break"><div class="page-break__fold"></div><div class="page-break__line"></div></div>
+
+<!-- ============================================
+     05 — PRODUCTION
+     ============================================ -->
+<section class="section page-section page-flip" id="production">
+  <div class="magazine-grid magazine-grid--asymmetric-reverse">
+    <div class="col col--bordered">
+      <div class="section__header">
+        <span class="section__label"><span class="section__number">05</span> &mdash; Production</span>
+        <h2>Kyoto Animation's<br>Masterwork</h2>
+      </div>
+
+      <p class="dropcap">Violet Evergarden represents the pinnacle of Kyoto Animation's craft. Based on the light novel series by Kana Akatsuki, which won the grand prize at the fifth Kyoto Animation Awards in 2014, the anime adaptation was announced in 2016 and premiered in January 2018.</p>
+
+      <p>Directed by Taichi Ishidate, with series composition by Reiko Yoshida and character design by Akiko Takase, the production demanded an extraordinary level of detail. The animation team studied real European architecture, vintage typewriters, and period-accurate military uniforms to build a world that feels tangible and lived-in.</p>
+
+      <p>The production became a symbol of resilience for the studio. After the devastating arson attack on Kyoto Animation's Studio 1 on July 18, 2019, the film <em>Violet Evergarden: Eternity and the Auto Memory Doll</em> became one of the first works completed in the aftermath — a testament to the studio's determination and the spirit of creation.</p>
+
+      <p>The 2020 feature film, <em>Violet Evergarden: The Movie</em>, served as the emotional conclusion to Violet's story, grossing over ¥2.1 billion at the Japanese box office and receiving widespread critical acclaim for its animation quality and emotional depth.</p>
+    </div>
+
+    <div class="col">
+      <div class="img-frame img-frame--square" style="margin-bottom: 2rem;">
+        <div class="img-placeholder img-placeholder--emerald"></div>
+      </div>
+      <p class="img-caption"><strong>Kyoto Animation</strong> — Renowned for their meticulous attention to detail, emotional storytelling, and the dignity they bring to every frame.</p>
+
+      <table class="staff-table" style="margin-top: 2rem;">
+        <tr><td>Director</td><td>Taichi Ishidate</td></tr>
+        <tr><td>Series Comp.</td><td>Reiko Yoshida</td></tr>
+        <tr><td>Character Design</td><td>Akiko Takase</td></tr>
+        <tr><td>Music</td><td>Evan Call</td></tr>
+        <tr><td>Art Director</td><td>Mikiko Watanabe</td></tr>
+        <tr><td>Studio</td><td>Kyoto Animation</td></tr>
+        <tr><td>Original Work</td><td>Kana Akatsuki</td></tr>
+        <tr><td>Illustrator</td><td>Akiko Takase</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="page-break"><div class="page-break__fold"></div><div class="page-break__line"></div></div>
+
+<!-- ============================================
+     06 — THEMES & ANALYSIS
+     ============================================ -->
+<section class="section page-section page-flip" id="themes">
+  <div class="magazine-grid magazine-grid--3">
+    <div class="col" style="grid-column: 1 / -1;">
+      <div class="section__header">
+        <span class="section__label"><span class="section__number">06</span> &mdash; Themes & Analysis</span>
+        <h2>What It Means to Love</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="magazine-grid magazine-grid--3" style="margin-top: 2rem;">
+    <div class="col col--bordered">
+      <h4 style="margin-bottom: 1rem; color: var(--accent);">The Language of Emotion</h4>
+      <p>Central to the series is the question of how we communicate what we feel. Violet's literal, military-trained mind cannot parse metaphor, subtext, or emotional nuance. Her journey as a ghostwriter forces her to translate the raw feelings of others into words — and in doing so, she develops her own emotional vocabulary.</p>
+      <p>The series argues that emotion is not innate but learned, that empathy is a skill developed through practice and patience. Each letter Violet writes becomes a lesson in humanity.</p>
+    </div>
+
+    <div class="col col--bordered">
+      <h4 style="margin-bottom: 1rem; color: var(--accent);">Grief and Moving Forward</h4>
+      <p>Almost every episode deals with loss — of lovers, children, parents, comrades. But the series never wallows. Instead, it presents grief as the price of love, and healing as an act of courage. The letters become vessels for closure, for saying what could not be said in person.</p>
+      <p>Episode 10, featuring a dying mother writing letters for her young daughter's future birthdays, is perhaps the most devastating exploration of this theme — a meditation on how love persists beyond death through the written word.</p>
+    </div>
+
+    <div class="col">
+      <h4 style="margin-bottom: 1rem; color: var(--accent);">Identity After War</h4>
+      <p>Violet's struggle is not merely emotional but existential. Having been defined entirely by her utility as a soldier, she must construct a new identity from scratch. Who is she without orders? What does she want? Can a weapon become a person?</p>
+      <p>The series treats this transition with remarkable patience, never rushing Violet's growth or simplifying her trauma. Her prosthetic hands serve as both literal and metaphorical reminders — she can grasp objects but learning to grasp feelings is infinitely harder.</p>
+    </div>
+  </div>
+
+  <div class="ornament" style="margin-top: 3rem;">◆ &nbsp; ◆ &nbsp; ◆</div>
+
+  <div class="magazine-grid magazine-grid--2" style="margin-top: 2rem;">
+    <div class="col col--bordered">
+      <div class="pull-quote">
+        "The show's greatest achievement is making you feel the weight of every word written and every silence between them. It understands that what we leave unsaid is often more powerful than what we commit to paper."
+        <cite>— Animation Monthly, Issue 47</cite>
+      </div>
+    </div>
+    <div class="col">
+      <div class="img-frame img-frame--wide">
+        <div class="img-placeholder img-placeholder--war"></div>
+      </div>
+      <p class="img-caption"><strong>The Great War</strong> — The continental conflict that shaped Violet's childhood and left scars on an entire generation. The series treats war not as spectacle but as the source of wounds that take a lifetime to heal.</p>
+    </div>
+  </div>
+</section>
+
+<div class="page-break"><div class="page-break__fold"></div><div class="page-break__line"></div></div>
+
+<!-- ============================================
+     07 — LEGACY
+     ============================================ -->
+<section class="section page-section page-flip" id="legacy">
+  <div class="magazine-grid magazine-grid--wide-left">
+    <div class="col col--bordered">
+      <div class="section__header">
+        <span class="section__label"><span class="section__number">07</span> &mdash; Legacy</span>
+        <h2>An Everlasting<br>Impression</h2>
+      </div>
+
+      <p class="dropcap">Violet Evergarden's impact extends far beyond its thirteen episodes. The series has become a touchstone for emotional storytelling in anime, frequently cited alongside works like <em>Clannad</em> and <em>A Silent Voice</em> as examples of the medium's capacity for profound human storytelling.</p>
+
+      <p>The franchise expanded with two theatrical films: <em>Eternity and the Auto Memory Doll</em> (2019), a side story focusing on a new character, and <em>Violet Evergarden: The Movie</em> (2020), which concluded Violet's story with a reunion years in the making.</p>
+
+      <p>Critically, the series holds a near-universal reputation for excellence. Its animation quality set new standards for television anime, while its storytelling earned praise for treating emotional complexity with the same rigor typically reserved for action narratives. The series won multiple awards, including Animation of the Year at several Japanese ceremonies.</p>
+
+      <p>For many viewers, Violet Evergarden became more than entertainment — it became a tool for processing their own grief, understanding their own emotions, and learning that vulnerability is not weakness but the foundation of all human connection.</p>
+
+      <div class="stat-row" style="margin-top: 2rem;">
+        <div class="stat-box">
+          <div class="stat-box__value">8.6</div>
+          <div class="stat-box__label">MAL Score</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box__value">2.1B</div>
+          <div class="stat-box__label">Box Office ¥</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box__value">2</div>
+          <div class="stat-box__label">Films</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box__value">∞</div>
+          <div class="stat-box__label">Tears Shed</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="img-frame img-frame--tall" style="margin-bottom: 2rem;">
+        <div class="img-placeholder img-placeholder--letter"></div>
+      </div>
+      <p class="img-caption"><strong>A letter never sent</strong> — The written word is both the medium and the message of Violet Evergarden. Every letter in the series carries the weight of unspoken emotions.</p>
+
+      <div class="feature-card" style="margin-top: 2rem;">
+        <h3 class="feature-card__title">Awards & Recognition</h3>
+        <ul style="list-style: none; font-size: 0.78rem; color: var(--ink-light);">
+          <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--rule);">Tokyo Anime Award Festival — Animation of the Year</li>
+          <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--rule);">Crunchyroll Anime Awards — Best Animation (Nominee)</li>
+          <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--rule);">Mainichi Film Awards — Best Animation Film</li>
+          <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--rule);">Kyoto Animation Award — Grand Prize (Light Novel)</li>
+          <li style="padding: 0.4rem 0;">Japan Academy Film Prize — Animation of the Year (Nominee)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     FOOTER / COLOPHON
+     ============================================ -->
+<footer class="colophon">
+  <div class="colophon__grid">
+    <div>
+      <div class="colophon__title">Evergarden Magazine</div>
+      <p class="colophon__text">
+        A fan-made retrospective celebrating the artistry, storytelling, and emotional depth of <em>Violet Evergarden</em>. This publication is not affiliated with Kyoto Animation, Kana Akatsuki, or any related entities. All creative works and characters referenced herein are the property of their respective creators and rights holders.
+      </p>
+      <p class="colophon__text" style="margin-top: 1rem;">
+        Published with love and reverence for the craft of animation. Every frame of Violet Evergarden is a painting; every episode, a poem. This magazine is merely one attempt to honor that beauty in print.
+      </p>
+    </div>
+
+    <div>
+      <div class="colophon__heading">Credits</div>
+      <ul class="colophon__list">
+        <li>Editor-in-Chief — A Devoted Fan</li>
+        <li>Art Direction — Inspired by KyoAni</li>
+        <li>Typography — Playfair Display & IBM Plex Mono</li>
+        <li>Layout — CSS Multi-Column Magazine</li>
+        <li>Color Treatment — Sepia with Paper Texture</li>
+        <li>Production — 2026</li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="colophon__heading">Sources & Further Reading</div>
+      <ul class="colophon__list">
+        <li>Light Novel — Kana Akatsuki, KA Esuma Bunko</li>
+        <li>Anime — Kyoto Animation, 2018</li>
+        <li>Film: Eternity and the Auto Memory Doll — 2019</li>
+        <li>Film: Violet Evergarden: The Movie — 2020</li>
+        <li>Music — Evan Call, Lantis</li>
+        <li>Character Design — Akiko Takase</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="colophon__bottom">
+    <div class="colophon__issn">
+      International Standard Serial Number
+      <span>ISSN 2026-0829</span>
+    </div>
+    <div class="colophon__legal">
+      © 2026 Evergarden Magazine. All rights reserved. Printed on recycled stock with soy-based inks. No portion of this publication may be reproduced without written permission. Published in the spirit of fair use and fandom appreciation. The words we write carry the weight of our hearts.
+    </div>
+  </div>
+
+  <div class="colophon__mark">
+    <span class="colophon__mark-symbol">❧</span>
+  </div>
+</footer>
+
+<!-- ============================================
+     JAVASCRIPT
+     ============================================ -->
+<script>
+(function() {
+  'use strict';
+
+  // ---- TOC Toggle ----
+  const tocToggle = document.getElementById('tocToggle');
+  const tocOverlay = document.getElementById('tocOverlay');
+  const tocClose = document.getElementById('tocClose');
+  const tocBackdrop = document.getElementById('tocBackdrop');
+  const tocLinks = document.querySelectorAll('.toc__link');
+
+  function openToc() {
+    tocOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeToc() {
+    tocOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  tocToggle.addEventListener('click', openToc);
+  tocClose.addEventListener('click', closeToc);
+  tocBackdrop.addEventListener('click', closeToc);
+
+  tocLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      closeToc();
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 400);
+    });
+  });
+
+  // ---- Page Section Reveal (Intersection Observer) ----
+  const sections = document.querySelectorAll('.page-section');
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -80px 0px',
+    threshold: 0.1
+  };
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        sectionObserver.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => {
+    sectionObserver.observe(section);
+  });
+
+  // ---- Stagger animations ----
+  const staggerElements = document.querySelectorAll('.stagger-in');
+  const staggerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        staggerObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  staggerElements.forEach(el => staggerObserver.observe(el));
+
+  // ---- Keyboard shortcut for TOC ----
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && tocOverlay.classList.contains('open')) {
+      closeToc();
+    }
+    if ((e.key === 'm' || e.key === 'M') && !tocOverlay.classList.contains('open')) {
+      openToc();
+    }
+  });
+
+  // ---- Page flip sound simulation (visual only) ----
+  const pageBreaks = document.querySelectorAll('.page-break');
+  const flipObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'scaleY(1)';
+      }
+    });
+  }, { threshold: 0.5 });
+
+  pageBreaks.forEach(pb => {
+    pb.style.opacity = '0';
+    pb.style.transform = 'scaleY(0.5)';
+    pb.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+    flipObserver.observe(pb);
+  });
+
+})();
+</script>
+</body>
+</html>
