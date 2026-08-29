@@ -1,6 +1,7 @@
 <div align="center">
 
-<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenRiZnU1bDY3a3AzZm5tenE2eW9ybjJ3cDkzams5MnE1d3IwMjhqcCZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/a3FVJG2t1y9uHZ99FG/giphy.gif">
+<img src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3NGwwcTRuaHFpczBvZzBqZWNjM3pseWxpY2hra3g4YWxma295cDF1NCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/4xR8HF1HmZwxyq38GH/giphy.gif" weigt=200>
+
 💐 Synopsis
 
 Following four long years of conflict, The Great War in the land of Telesis finally came to an end. Caught up in the bloodshed was Violet Evergarden, a young girl raised as a ruthless killer. Hospitalized and maimed in a bloody skirmish during the War's conclusion, she was left with only the words "I love you" from the person she held dearest, but with no understanding of their meaning.
