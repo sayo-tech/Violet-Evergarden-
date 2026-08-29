@@ -1800,6 +1800,30 @@ p {
     flipObserver.observe(pb);
   });
 
+   <script>
+/* ============================================================
+   1) ดึงข้อมูลตัวเองจากไฟล์ data/profile.json
+   สังเกตว่าไฟล์ HTML ไม่ได้เก็บชื่อไว้เลย แต่ไปขอข้อมูลจากอีกไฟล์หนึ่ง
+   นี่คือการแยกข้อมูลออกจากการแสดงผล เปิด DevTools > Network แล้วรีเฟรช
+   จะเห็นว่า profile.json เป็นอีก request หนึ่งแยกต่างหาก
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+
+fetch('data/profile.json')
+  .then((res) => {
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  })
+  .then(render)
+  .catch((err) => {
+    $('name').textContent = 'โหลด profile.json ไม่สำเร็จ';
+    $('tagline').textContent = String(err);
+    $('about').textContent =
+      'หากเปิดไฟล์นี้ด้วยการดับเบิลคลิกจากเครื่อง (URL ขึ้นต้นด้วย file://) ' +
+      'browser จะบล็อกการอ่านไฟล์อื่นตามกฎ same-origin ' +
+      'ให้เปิดผ่าน URL ของ GitHub Pages แทน';
+  });
+
 })();
 </script>
 </body>
